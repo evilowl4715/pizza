@@ -31,7 +31,7 @@ export const ProductsGroupList = ({
         if (intersection?.isIntersecting) {
             setActiveCategoryId(categoryId)
         }
-    }, [categoryId, intersection?.isIntersecting, title]);
+    }, [categoryId, intersection?.isIntersecting, setActiveCategoryId, title]);
 
     return (
         <div className={className} {...props} id={title} ref={intersectionRef}>
