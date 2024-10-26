@@ -1,56 +1,58 @@
-import Image from "next/image";
-import Link from "next/link";
-import { Title } from "@/components/shared";
-import { Button } from "../ui";
-import { Plus } from "lucide-react";
+"use client";
+import { ProductCard, Title } from "@/components/shared";
+import { cn } from "@/lib/utils";
+import { useCategoryStore } from "@/store/category";
+import React, { useEffect } from "react";
+import { useIntersection } from "react-use";
 
 interface Props {
-    id: number;
-    name: string;
-    description: string;
-    price: number;
-    imageUrl: string;
+    title: string;
+    items: any[];
+    categoryId: number;
     className?: string;
+    listClassName?: string;
 }
 
 export const ProductsGroupList = ({
-    id,
-    name,
-    description,
-    price,
-    imageUrl,
+    title,
+    items,
     className,
+    listClassName,
+    categoryId,
     ...props
 }: Props) => {
+    const setActiveCategoryId = useCategoryStore((state) => state.setActiveId);
+    const intersectionRef = React.useRef(null);
+    const intersection = useIntersection(intersectionRef, {
+        threshold: 0.4,
+    });
+
+    useEffect(() => {
+        if (intersection?.isIntersecting) {
+            setActiveCategoryId(categoryId)
+        }
+    }, [categoryId, intersection?.isIntersecting, title]);
+
     return (
-        <div className={className} {...props}>
-            <Link href={`/product/${id}`}>
-                <div className="flex justify-center p-6 bg-secondary rounded-lg h-[260px]">
-                    <Image
-                        className="w-[215px] h-[215px]"
-                        width={215}
-                        height={215}
-                        src={imageUrl}
-                        alt={name}
+        <div className={className} {...props} id={title} ref={intersectionRef}>
+            <Title
+                text={title}
+                size="lg"
+                className="font-extrabold mb-5"
+            ></Title>
+
+            <div className={cn("grid grid-cols-3 gap-[50px]", listClassName)}>
+                {items.map((product) => (
+                    <ProductCard
+                        key={product.id}
+                        id={product.id}
+                        name={product.name}
+                        imageUrl={product.imageUrl}
+                        description={product.description}
+                        price={product.price}
                     />
-                </div>
-                <Title text={name} size="sm" className="mb-1 mt-3 font-bold" />
-
-                <p className="text-sm text-gray-400">
-                    {description}
-                </p>
-
-                <div className="flex justify-between items-center mt-4">
-                    <span className="text-[20px]">
-                        от <b>{price} ₽</b>
-                    </span>
-
-                    <Button variant="secondary" className="text-base font-bold">
-                        <Plus size={20} className="mr-1"/>
-                        Добавить
-                    </Button>
-                </div>
-            </Link>
+                ))}
+            </div>
         </div>
     );
 };
