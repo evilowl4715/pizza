@@ -24,7 +24,7 @@ export const Header = ({ className, ...props }: Props) => {
                         />
                         <div>
                             <h1 className="text-2xl uppercase font-black">
-                                NEXT PIZZA
+                                PIZZA
                             </h1>
                             <p className="text-sm text-gray-400 leading-3">
                                 вкусней уже некуда
