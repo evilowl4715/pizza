@@ -16,7 +16,7 @@ interface Props {
     className?: string;
     loading?: boolean;
     selectedIds?: Set<string>;
-    name?: string
+    name?: string;
 }
 
 export const CheckboxFiltersGroup = ({
@@ -35,7 +35,6 @@ export const CheckboxFiltersGroup = ({
 }: Props) => {
     const [showAll, setShowAll] = useState(false);
     const [searchValue, setSearchValue] = useState("");
-    
 
     const list = showAll
         ? items.filter((item) =>
