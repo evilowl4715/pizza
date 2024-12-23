@@ -48,8 +48,8 @@ export const ProductsGroupList = ({
                         id={product.id}
                         name={product.name}
                         imageUrl={product.imageUrl}
-                        description={product.description}
-                        price={product.price}
+                        description="Цыпленок, моцарелла, сыры чеддер и пармезан, сырный соус, томаты, соус альфредо, чеснок"
+                        price={390}
                     />
                 ))}
             </div>

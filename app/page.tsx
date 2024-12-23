@@ -5,15 +5,29 @@ import {
     Filters,
     ProductsGroupList,
 } from "@/components/shared";
+import { prisma } from "@/prisma/prisma-client";
 
-export default function Home() {
+export default async function Home() {
+
+    const categories = await prisma.category.findMany({
+        include: {
+            products: {
+                include: {
+                    ingredients: true,
+                    variationProduct: true
+                },
+            },
+        }
+    });
+
+
     return (
         <>
             <Container className="mt-10">
                 <Title text="Все пиццы" size="lg" className="font-extrabold" />
             </Container>
 
-            <TopBar />
+            <TopBar categories={categories.filter((category) => category.products.length > 0)} />
 
             <Container className="pb-14 mt-10">
                 <div className="flex gap-[80px]">
@@ -25,170 +39,16 @@ export default function Home() {
                     {/* Список продуктов */}
                     <div className="flex-1">
                         <div className="flex flex-col gap-16">
-                            <ProductsGroupList
-                                title={"Пиццы"}
-                                items={[
-                                    {
-                                        id: 1,
-                                        name: "Сырный цыпленок",
-                                        description:
-                                            "Цыпленок, моцарелла, сыры чеддер и пармезан, сырный соус, томаты, соус альфредо, чеснок",
-                                        price: 395,
-                                        imageUrl: "/pizza-img.png",
-                                    },
-                                    {
-                                        id: 2,
-                                        name: "Сырный цыпленок",
-                                        description:
-                                            "Цыпленок, моцарелла, сыры чеддер и пармезан, сырный соус, томаты, соус альфредо, чеснок",
-                                        price: 395,
-                                        imageUrl: "/pizza-img.png",
-                                    },
-                                    {
-                                        id: 3,
-                                        name: "Сырный цыпленок",
-                                        description:
-                                            "Цыпленок, моцарелла, сыры чеддер и пармезан, сырный соус, томаты, соус альфредо, чеснок",
-                                        price: 395,
-                                        imageUrl: "/pizza-img.png",
-                                    },
-                                    {
-                                        id: 4,
-                                        name: "Сырный цыпленок",
-                                        description:
-                                            "Цыпленок, моцарелла, сыры чеддер и пармезан, сырный соус, томаты, соус альфредо, чеснок",
-                                        price: 395,
-                                        imageUrl: "/pizza-img.png",
-                                    },
-                                    {
-                                        id: 5,
-                                        name: "Сырный цыпленок",
-                                        description:
-                                            "Цыпленок, моцарелла, сыры чеддер и пармезан, сырный соус, томаты, соус альфредо, чеснок",
-                                        price: 395,
-                                        imageUrl: "/pizza-img.png",
-                                    },
-                                    {
-                                        id: 6,
-                                        name: "Сырный цыпленок",
-                                        description:
-                                            "Цыпленок, моцарелла, сыры чеддер и пармезан, сырный соус, томаты, соус альфредо, чеснок",
-                                        price: 395,
-                                        imageUrl: "/pizza-img.png",
-                                    },
-                                ]}
-                                categoryId={1}
-                            />
-                            
-                            <ProductsGroupList
-                                title={"Комбо"}
-                                items={[
-                                    {
-                                        id: 1,
-                                        name: "Сырный цыпленок",
-                                        description:
-                                            "Цыпленок, моцарелла, сыры чеддер и пармезан, сырный соус, томаты, соус альфредо, чеснок",
-                                        price: 395,
-                                        imageUrl: "/pizza-img.png",
-                                    },
-                                    {
-                                        id: 2,
-                                        name: "Сырный цыпленок",
-                                        description:
-                                            "Цыпленок, моцарелла, сыры чеддер и пармезан, сырный соус, томаты, соус альфредо, чеснок",
-                                        price: 395,
-                                        imageUrl: "/pizza-img.png",
-                                    },
-                                    {
-                                        id: 3,
-                                        name: "Сырный цыпленок",
-                                        description:
-                                            "Цыпленок, моцарелла, сыры чеддер и пармезан, сырный соус, томаты, соус альфредо, чеснок",
-                                        price: 395,
-                                        imageUrl: "/pizza-img.png",
-                                    },
-                                    {
-                                        id: 4,
-                                        name: "Сырный цыпленок",
-                                        description:
-                                            "Цыпленок, моцарелла, сыры чеддер и пармезан, сырный соус, томаты, соус альфредо, чеснок",
-                                        price: 395,
-                                        imageUrl: "/pizza-img.png",
-                                    },
-                                    {
-                                        id: 5,
-                                        name: "Сырный цыпленок",
-                                        description:
-                                            "Цыпленок, моцарелла, сыры чеддер и пармезан, сырный соус, томаты, соус альфредо, чеснок",
-                                        price: 395,
-                                        imageUrl: "/pizza-img.png",
-                                    },
-                                    {
-                                        id: 6,
-                                        name: "Сырный цыпленок",
-                                        description:
-                                            "Цыпленок, моцарелла, сыры чеддер и пармезан, сырный соус, томаты, соус альфредо, чеснок",
-                                        price: 395,
-                                        imageUrl: "/pizza-img.png",
-                                    },
-                                ]}
-                                categoryId={2}
-                            />
-
-                            <ProductsGroupList
-                                title={"Закуски"}
-                                items={[
-                                    {
-                                        id: 1,
-                                        name: "Сырный цыпленок",
-                                        description:
-                                            "Цыпленок, моцарелла, сыры чеддер и пармезан, сырный соус, томаты, соус альфредо, чеснок",
-                                        price: 395,
-                                        imageUrl: "/pizza-img.png",
-                                    },
-                                    {
-                                        id: 2,
-                                        name: "Сырный цыпленок",
-                                        description:
-                                            "Цыпленок, моцарелла, сыры чеддер и пармезан, сырный соус, томаты, соус альфредо, чеснок",
-                                        price: 395,
-                                        imageUrl: "/pizza-img.png",
-                                    },
-                                    {
-                                        id: 3,
-                                        name: "Сырный цыпленок",
-                                        description:
-                                            "Цыпленок, моцарелла, сыры чеддер и пармезан, сырный соус, томаты, соус альфредо, чеснок",
-                                        price: 395,
-                                        imageUrl: "/pizza-img.png",
-                                    },
-                                    {
-                                        id: 4,
-                                        name: "Сырный цыпленок",
-                                        description:
-                                            "Цыпленок, моцарелла, сыры чеддер и пармезан, сырный соус, томаты, соус альфредо, чеснок",
-                                        price: 395,
-                                        imageUrl: "/pizza-img.png",
-                                    },
-                                    {
-                                        id: 5,
-                                        name: "Сырный цыпленок",
-                                        description:
-                                            "Цыпленок, моцарелла, сыры чеддер и пармезан, сырный соус, томаты, соус альфредо, чеснок",
-                                        price: 395,
-                                        imageUrl: "/pizza-img.png",
-                                    },
-                                    {
-                                        id: 6,
-                                        name: "Сырный цыпленок",
-                                        description:
-                                            "Цыпленок, моцарелла, сыры чеддер и пармезан, сырный соус, томаты, соус альфредо, чеснок",
-                                        price: 395,
-                                        imageUrl: "/pizza-img.png",
-                                    },
-                                ]}
-                                categoryId={3}
-                            />
+                            {categories.map((category) => (
+                                category.products.length > 0 && (
+                                    <ProductsGroupList
+                                        key={category.id}
+                                        title={category.name}
+                                        categoryId={category.id}
+                                        items={category.products}
+                                    />
+                                )
+                            ))}
                         </div>
                     </div>
                 </div>
